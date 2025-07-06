@@ -2,7 +2,9 @@
 </script>
 
 <template>
-<div>111</div>
+<div>
+  <el-button type="primary">确认</el-button>
+</div>
 </template>
 
 <style scoped>
