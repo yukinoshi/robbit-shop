@@ -1,12 +1,14 @@
-<script>
-  export default {
-    name: "LayoutIndex"
-  }
+<script setup>
+import LayoutNav from './components/LayoutNav.vue'
+import LayoutHeader from './components/LayoutHead.vue'
+import LayoutFooter from './components/LayoutFooter.vue'
 </script>
 
 <template>
-  <div>主页</div>
+  <LayoutNav></LayoutNav>
   <router-view></router-view>
+  <LayoutHeader></LayoutHeader>
+  <LayoutFooter></LayoutFooter>
 </template>
 
 
