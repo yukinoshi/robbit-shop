@@ -1,6 +1,7 @@
 <script setup>
 import { getCategoryApi } from '@/apis/category';
-import { ref,watch } from 'vue';
+import { getgetBannerApi } from '@/apis/home';
+import { onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 const categoryData = ref({})
 const route = useRoute()
@@ -8,7 +9,16 @@ const getCategory = async (id) => {
   const res = await getCategoryApi(id)
   categoryData.value = res.result
 }
+const bannerList = ref([])
+const getBanner = async () => {
+  const res = await getgetBannerApi({
+    distributionSite: '2'
+  })
+  console.log(res)
+  bannerList.value = res.result
+}
 
+onMounted(() => getBanner())
 getCategory(route.params.id)
 watch(
   () => route.params.id,
@@ -28,12 +38,29 @@ watch(
           <el-breadcrumb-item>{{ categoryData.name }}</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
+      <div class="home-banner">
+        <el-carousel height="500px">
+          <el-carousel-item v-for="item in bannerList" :key="item.id">
+            <img :src="item.imgUrl" alt="">
+          </el-carousel-item>
+        </el-carousel>
+      </div>
     </div>
   </div>
 </template>
 
 
 <style scoped lang="scss">
+.home-banner {
+  width: 1240px;
+  height: 500px;
+  margin: 0 auto;
+
+  img {
+    width: 100%;
+    height: 500px;
+  }
+}
 .top-category {
   h3 {
     font-size: 28px;

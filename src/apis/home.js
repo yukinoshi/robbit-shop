@@ -5,7 +5,15 @@ import httpInstance from '@/utils/http'
  * @param {*}
  * @return {*}
  */
-const getgetBannerApi = async () => await httpInstance({url: '/home/banner'})
+const getgetBannerApi = async (params = {}) => {
+  const { distributionSite = '1' } = params
+  return await httpInstance({
+    url: '/home/banner',
+    params: {
+      distributionSite
+    }
+  })
+}
 /**
  * @description: 获取新鲜好物
  * @param {*}
