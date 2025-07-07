@@ -1,31 +1,10 @@
 <script setup>
-import { getCategoryApi } from '@/apis/category';
-import { getgetBannerApi } from '@/apis/home';
-import { onMounted, ref } from 'vue';
-import { useRoute,onBeforeRouteUpdate } from 'vue-router';
 import GoodsItem from '@/views/Home/components/GoodsItem.vue';
-const categoryData = ref({})
-const bannerList = ref([])
-const route = useRoute()
-const getCategory = async (id = route.params.id) => {
-  const res = await getCategoryApi(id)
-  categoryData.value = res.result
-}
-const getBanner = async () => {
-  const res = await getgetBannerApi({
-    distributionSite: '2'
-  })
-  console.log(res)
-  bannerList.value = res.result
-}
-onBeforeRouteUpdate((to)=>{
-  getCategory(to.params.id)
-})
-onMounted(() => {
-  getCategory()
-  getBanner()
-})
+import {useBanner} from './composables/useBanner';
+import {useCategory} from './composables/useCategory';
 
+const {bannerList} = useBanner()
+const {categoryData} = useCategory()
 
 </script>
 
