@@ -18,9 +18,16 @@ const findNewApi = async () => await httpInstance({url: '/home/new'})
  * @return {*}
  */
 const findHotApi = async () => await httpInstance({url: '/home/hot'})
+/**
+ * @description: 获取所有商品模块
+ * @param {*}
+ * @return {*}
+ */
+const getGoodsApi = async () => await httpInstance({url: '/home/goods'})
 
 export {
   getgetBannerApi,
   findNewApi,
-  findHotApi
+  findHotApi,
+  getGoodsApi
 } 
