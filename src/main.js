@@ -4,9 +4,11 @@ import App from './App.vue'
 import router from './router'
 import '@/styles/common.scss'
 import { lazyPlugin } from '@/directives'
+// import {componentPlugin} from '@/components'
 const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
 app.use(lazyPlugin)
+// app.use(componentPlugin) 已经有了插件所以不需要手动全局注册引入也可以完成自动引入component下的组件
 app.mount('#app')
