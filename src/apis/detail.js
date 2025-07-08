@@ -14,6 +14,23 @@ const getGoodsDetail = async (id) => {
   })
 }
 
+/**
+ * @description: 获取一级分类列表数据
+ * @param {*}
+ * @return {*}
+ */
+const getHotGoodsApi = async ({id,type,limit = 3}) => {
+  return await httpInstance({
+    url: '/goods/hot',
+    params: {
+      id,
+      type,
+      limit
+    }
+  })
+}
+
 export {
-  getGoodsDetail
+  getGoodsDetail,
+  getHotGoodsApi
 }
