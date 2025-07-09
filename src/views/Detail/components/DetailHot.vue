@@ -21,8 +21,6 @@ const getHotList = async () => {
     type: props.hotType
   })
   hotList.value = res.result
-  console.log(res);
-  
 }
 onMounted(()=>getHotList())
 </script>

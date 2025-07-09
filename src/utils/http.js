@@ -17,9 +17,9 @@ httpInstance.interceptors.request.use(config => {
 },e=>Promise.reject(e))
 
 httpInstance.interceptors.response.use(res=>res.data,e=>{
+  const userStore = useUserStore()
   ElMessage({ type: 'warning', message: e.response.data.msg })
   if(e.response.status === 401){
-    const userStore = useUserStore()
     userStore.clearUserInfo()
     router.replace({ path: '/login' })
   }
