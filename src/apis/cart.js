@@ -42,8 +42,23 @@ const deleteCartApi = async (ids) => {
   })
 }
 
+/**
+ * @description: 合并购物车
+ * @param {*}
+ * @return {*}
+ */
+
+const mergeCartApi = async (data) => {
+  return httpInstance({
+    url: '/member/cart/merge',
+    method: 'POST',
+    data
+  })
+}
+
 export {
   getCartDataApi,
   insertCartApi,
-  deleteCartApi
+  deleteCartApi,
+  mergeCartApi
 }

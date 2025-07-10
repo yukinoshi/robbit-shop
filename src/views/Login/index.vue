@@ -36,7 +36,7 @@ const doLogin = () => {
     if (valid) {
       await userStore.getUserInfo({ account, password })
       ElMessage({ type: 'success', message: '登录成功' })
-      router.replace({ path: '/' })
+      router.replace('/')
     }
   })
 }

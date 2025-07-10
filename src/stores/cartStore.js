@@ -23,7 +23,7 @@ export const useCartStore = defineStore('cart',()=>{
   })
 
   //获取最新的购物车数据
-  const updateNewList = async () => {
+  const updateCartNewList = async () => {
     const res = await getCartDataApi()
     cartList.value = res.result
   }
@@ -36,7 +36,7 @@ export const useCartStore = defineStore('cart',()=>{
     const {skuId,count} = goods
     if (isLogin.value) {
       await insertCartApi({skuId,count})
-      updateNewList()
+      updateCartNewList()
     } else {
       const item = cartList.value.find((item) => goods.skuId===item.skuId)
       if (item) {
@@ -50,7 +50,7 @@ export const useCartStore = defineStore('cart',()=>{
   const delCart = async (skuId) => {
     if (isLogin.value) {
       await deleteCartApi([skuId])
-      updateNewList()
+      updateCartNewList()
     } else {
       cartList.value = cartList.value.filter((item)=>item.skuId!==skuId)
     }
@@ -77,7 +77,7 @@ export const useCartStore = defineStore('cart',()=>{
     delCart,
     singlecheck,
     allcheck,
-    updateNewList,
+    updateCartNewList,
     clearCart
   }
 },{
