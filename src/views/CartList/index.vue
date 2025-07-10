@@ -2,7 +2,9 @@
 import { useCartStore } from '@/stores/cartStore';
 
 const CartStore = useCartStore()
-
+const singleChange = (i,selected) => {
+  CartStore.singlecheck(i.skuId,selected)
+}
 </script>
 
 <template>
@@ -13,7 +15,7 @@ const CartStore = useCartStore()
           <thead>
             <tr>
               <th width="120">
-                <el-checkbox/>
+                <el-checkbox :model-value="CartStore.isAll" @change="CartStore.allcheck"/>
               </th>
               <th width="400">商品信息</th>
               <th width="220">单价</th>
@@ -26,7 +28,7 @@ const CartStore = useCartStore()
           <tbody>
             <tr v-for="i in CartStore.cartList" :key="i.id">
               <td>
-                <el-checkbox />
+                <el-checkbox :model-value="i.selected" @change="(selected)=>singleChange(i,selected)" />
               </td>
               <td>
                 <div class="goods">
@@ -73,8 +75,8 @@ const CartStore = useCartStore()
       <!-- 操作栏 -->
       <div class="action">
         <div class="batch">
-          共 10 件商品，已选择 2 件，商品合计：
-          <span class="red">¥ 200.00 </span>
+          共 {{CartStore.cartList.length}} 件商品，已选择 {{ CartStore.selectedCount }} 件，商品合计：
+          <span class="red">¥ {{CartStore.selectedSumPrice.toFixed(2)}} </span>
         </div>
         <div class="total">
           <el-button size="large" type="primary" >下单结算</el-button>
