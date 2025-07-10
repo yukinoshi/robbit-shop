@@ -1,7 +1,10 @@
 import { defineStore } from "pinia"
 import { computed, ref } from "vue"
-
+import { useUserStore } from "./userStore"
+import {insertCartApi,getCartDataApi,deleteCartApi} from '@/apis/cart';
 export const useCartStore = defineStore('cart',()=>{
+  const userStore = useUserStore()
+  const isLogin = computed(() => userStore.userInfo.token)
   const cartList = ref([])
   const sumCount = computed(()=>{
     return cartList.value.reduce((sum,item)=>sum+=item.count,0)
@@ -18,18 +21,39 @@ export const useCartStore = defineStore('cart',()=>{
   const selectedSumPrice = computed(() => {
     return cartList.value.filter(item=>item.selected).reduce((sum,item)=>sum+=item.count*item.price,0)
   })
+
+  //获取最新的购物车数据
+  const updateNewList = async () => {
+    const res = await getCartDataApi()
+    cartList.value = res.result
+  }
+  //清空购物车
+  const clearCart = () => {
+    cartList.value = []
+  }
   // 添加购物车商品
-  const addCart = (goods) => {
-    const item = cartList.value.find((item) => goods.skuId===item.skuId)
-    if (item) {
-      item.count+=goods.count
-    }else{
-      cartList.value.push(goods)
+  const addCart = async (goods) => {
+    const {skuId,count} = goods
+    if (isLogin.value) {
+      await insertCartApi({skuId,count})
+      updateNewList()
+    } else {
+      const item = cartList.value.find((item) => goods.skuId===item.skuId)
+      if (item) {
+        item.count+=goods.count
+      }else{
+        cartList.value.push(goods)
+      }
     }
   }
   // 删除购物车商品
-  const delCart = (skuId) => {
-    cartList.value = cartList.value.filter((item)=>item.skuId!==skuId)
+  const delCart = async (skuId) => {
+    if (isLogin.value) {
+      await deleteCartApi([skuId])
+      updateNewList()
+    } else {
+      cartList.value = cartList.value.filter((item)=>item.skuId!==skuId)
+    }
   }
   // 单选购物车商品
   const singlecheck = (skuId, selected) => {
@@ -52,7 +76,9 @@ export const useCartStore = defineStore('cart',()=>{
     addCart,
     delCart,
     singlecheck,
-    allcheck
+    allcheck,
+    updateNewList,
+    clearCart
   }
 },{
   persist: true
