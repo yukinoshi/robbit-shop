@@ -47,7 +47,6 @@ const deleteCartApi = async (ids) => {
  * @param {*}
  * @return {*}
  */
-
 const mergeCartApi = async (data) => {
   return httpInstance({
     url: '/member/cart/merge',
