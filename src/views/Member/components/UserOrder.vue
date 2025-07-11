@@ -1,6 +1,7 @@
 <script setup>
 import { getUserOrder } from '@/apis/order';
 import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 // tab列表
 const tabTypes = [
   { name: "all", label: "全部订单" },
@@ -11,6 +12,7 @@ const tabTypes = [
   { name: "complete", label: "已完成" },
   { name: "cancel", label: "已取消" }
 ]
+const router = useRouter()
 const fomartPayState = (payState) => {
   const stateMap = {
     1: '待付款',
@@ -49,6 +51,19 @@ const tabChange = (type) => {
 const pageChange = (page) => {
   params.value.page = page
   getOrderList(params)
+}
+const gotoPay = (id) => {
+  router.push({
+    path: '/pay',
+    query: {
+      id: id
+    }
+  })
+}
+const gotoAgainPay = (id) => {
+  router.push({
+    path: `/detail/${id}`
+  })
 }
 </script>
 
@@ -112,7 +127,7 @@ const pageChange = (page) => {
                 <p>在线支付</p>
               </div>
               <div class="column action">
-                <el-button v-if="order.orderState === 1" type="primary" size="small">
+                <el-button v-if="order.orderState === 1" @click="gotoPay(order.id)" type="primary" size="small">
                   立即付款
                 </el-button>
                 <el-button v-if="order.orderState === 3" type="primary" size="small">
@@ -120,7 +135,7 @@ const pageChange = (page) => {
                 </el-button>
                 <p><a href="javascript:;">查看详情</a></p>
                 <p v-if="[2, 3, 4, 5].includes(order.orderState)">
-                  <a href="javascript:;">再次购买</a>
+                  <a href="javascript:;" @click="gotoAgainPay(order.skus[0].spuId)">再次购买</a>
                 </p>
                 <p v-if="[4, 5].includes(order.orderState)">
                   <a href="javascript:;">申请售后</a>
