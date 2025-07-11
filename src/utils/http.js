@@ -5,7 +5,7 @@ import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 const httpInstance = axios.create({
   baseURL: "http://pcapi-xiaotuxian-front-devtest.itheima.net",
-  timeout: 10000,
+  timeout: 15000,
 })
 httpInstance.interceptors.request.use(config => {
   const userStore = useUserStore()
