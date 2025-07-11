@@ -5,7 +5,7 @@ import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 const httpInstance = axios.create({
   baseURL: "http://pcapi-xiaotuxian-front-devtest.itheima.net",
-  timeout: 5000,
+  timeout: 10000,
 })
 httpInstance.interceptors.request.use(config => {
   const userStore = useUserStore()
@@ -25,5 +25,28 @@ httpInstance.interceptors.response.use(res=>res.data,e=>{
   }
   return Promise.reject(e) 
 })
+
+// httpInstance.interceptors.response.use(
+//   res => res.data,
+//   e => {
+//     const userStore = useUserStore()
+    
+//     // Safely access error message
+//     const errorMessage = e.response?.data?.msg || e.message || '请求错误'
+    
+//     ElMessage({ 
+//       type: 'warning', 
+//       message: errorMessage 
+//     })
+    
+//     // Only handle 401 if response exists
+//     if(e.response?.status === 401) {
+//       userStore.clearUserInfo()
+//       router.replace({ path: '/login' })
+//     }
+    
+//     return Promise.reject(e) 
+//   }
+// )
 
 export default httpInstance

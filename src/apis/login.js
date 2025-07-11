@@ -16,6 +16,21 @@ const loginApi = async ({account,password}) => {
   })
 }
 
+/**
+ * @description: 登录校验
+ * @param {*} 
+ * @returns 
+ */
+const getLikeListAPI = async ({ limit = 4 }) => {
+  return await httpInstance({
+    url:'/goods/relevant',
+    params: {
+      limit 
+    }
+  })
+}
+
 export {
-  loginApi
+  loginApi,
+  getLikeListAPI
 }
